@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DersResource\Pages;
 use App\Filament\Resources\DersResource\RelationManagers;
 use App\Filament\Support\SlugFromField;
+use App\Filament\Support\UploadLimits;
 use App\Models\Ders;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -49,7 +50,12 @@ class DersResource extends Resource
                     ->directory('derses/pdfs')
                     ->required()
                     ->acceptedFileTypes(['application/pdf'])
+                    ->maxSize(UploadLimits::PDF_MAX_KB)
                     ->rules(['mimetypes:application/pdf'])
+                    ->validationMessages([
+                        'max' => 'The PDF must not be larger than 50 MB.',
+                    ])
+                    ->helperText('Maximum file size: 50 MB.')
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('pdf_page_count')
                     ->label('PDF page count')

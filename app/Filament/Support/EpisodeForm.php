@@ -3,6 +3,7 @@
 namespace App\Filament\Support;
 
 use App\Models\Ders;
+use App\Filament\Support\UploadLimits;
 use App\Services\AudioDurationService;
 use Filament\Forms;
 use Filament\Forms\Get;
@@ -44,6 +45,7 @@ class EpisodeForm
                 ->disk('public')
                 ->directory('episodes')
                 ->required()
+                ->maxSize(UploadLimits::AUDIO_MAX_KB)
                 ->acceptedFileTypes([
                     'audio/mpeg',
                     'audio/mp3',
@@ -58,6 +60,10 @@ class EpisodeForm
                 ->rules([
                     'mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav,audio/ogg,audio/aac,audio/mp4,audio/x-m4a,audio/webm',
                 ])
+                ->validationMessages([
+                    'max' => 'The audio file must not be larger than 30 MB.',
+                ])
+                ->helperText('Maximum file size: 30 MB.')
                 ->afterStateUpdated(function ($state, Set $set): void {
                     $path = self::normalizeUploadPath($state);
 
