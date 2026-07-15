@@ -50,4 +50,9 @@ class Ders extends Model
     {
         return $this->hasMany(Episode::class)->orderBy('sort_order');
     }
+
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
+    }
 }

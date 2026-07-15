@@ -37,4 +37,9 @@ class Episode extends Model
     {
         return $this->belongsTo(Ders::class);
     }
+
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
+    }
 }

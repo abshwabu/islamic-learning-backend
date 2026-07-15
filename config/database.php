@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Str;
 
+if (PHP_VERSION_ID >= 80500) {
+    $mysqlSslCaAttribute = \Pdo\Mysql::ATTR_SSL_CA;
+} else {
+    $mysqlSslCaAttribute = PDO::MYSQL_ATTR_SSL_CA;
+}
+
 return [
 
     /*
@@ -58,7 +64,7 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                $mysqlSslCaAttribute => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 
@@ -78,7 +84,7 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                $mysqlSslCaAttribute => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 
